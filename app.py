@@ -1,3 +1,8 @@
+from turtle import pd, rt
+import pandas as pd
+import plotly.express as px
+import os
+
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -93,66 +98,32 @@ def login():
     return render_template('login.html')
 
 # DASHBOARD (Protected)
+    
+
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    import pandas as pd
+    df = pd.read_csv("data.csv")
+    df.columns = df.columns.str.strip().str.lower()
 
-    try:
-        df = pd.read_csv('dataset/cme_events_2024.csv')
-
-        # 🔥 CLEAN
-        df.columns = df.columns.str.strip().str.lower()
-        print("COLUMNS:", df.columns)
-
-        total_events = len(df)
-
-        # 🔥 AUTO DETECT INTENSITY COLUMN
-        intensity_col = None
-        for col in df.columns:
-            if 'intensity' in col or 'speed' in col or 'value' in col:
-                intensity_col = col
-                break
-
-        # 🔥 AUTO DETECT EVENT TYPE
-        event_col = None
-        for col in df.columns:
-            if 'type' in col or 'event' in col:
-                event_col = col
-                break
-
-        # 🔥 KPI CALCULATION
-        if intensity_col:
-            avg_intensity = round(df[intensity_col].mean(), 2)
-            max_intensity = df[intensity_col].max()
-            min_intensity = df[intensity_col].min()
-        else:
-            avg_intensity = max_intensity = min_intensity = 0
-
-        if event_col:
-            event_types = df[event_col].nunique()
-        else:
-            event_types = 0
-
-    except Exception as e:
-        print("❌ ERROR:", e)
-
-        total_events = 0
-        avg_intensity = 0
-        max_intensity = 0
-        min_intensity = 0
-        event_types = 0
+    total_events = len(df)
+    avg_speed = round(df['speed'].mean(),2)
+    max_speed = df['speed'].max()
+    event_types = df['event_type'].nunique()
+    geo_percent = round((df['potentially_geoeffective'].sum()/len(df))*100,2)
 
     return render_template(
-        'dashboard.html',
+        "dashboard.html",
         total_events=total_events,
-        avg_intensity=avg_intensity,
-        max_intensity=max_intensity,
-        min_intensity=min_intensity,
-        event_types=event_types
+        avg_speed=avg_speed,
+        max_speed=max_speed,
+        event_types=event_types,
+        geo_percent=geo_percent
     )
+
+
 @app.route('/logout')
 def logout():
     session.clear()
