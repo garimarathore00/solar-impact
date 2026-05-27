@@ -3,179 +3,335 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solar Registration</title>
+<title>Register - Solar Impact Analysis</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
 }
 
-body{
-  background:#000814;
-  color:white;
-  /* padding:120px auto; */
-  
+body {
+    background: radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+                #030712;
+    color: #f8fafc;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
 }
 
-.container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+/* ⭐ Celestial Starfield */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("https://www.transparenttextures.com/patterns/stardust.png");
+    animation: stars 240s linear infinite;
+    opacity: 0.4;
+    z-index: -2;
 }
 
-/* Background */
-body::before{
-  content:"";
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:url("https://www.transparenttextures.com/patterns/stardust.png");
-  animation:stars 200s linear infinite;
-  opacity:0.7;
-  z-index:-2;
+@keyframes stars {
+    from { background-position: 0 0; }
+    to { background-position: 10000px 5000px; }
 }
 
-@keyframes stars{
-  from{background-position:0 0;}
-  to{background-position:10000px 5000px;}
+/* 🪐 Floating Glass Navbar */
+nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    padding: 15px 40px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* Navbar */
-nav{
-  display:flex;
-  justify-content:space-between;
-  padding:20px 8%;
-  position:fixed;
-  width:100%;
-  background:rgba(0,0,0,0.6);
+nav h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    background: linear-gradient(to right, #ffe3a0, #f59e0b, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-nav h2{
-  color:#00f7ff;
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
 }
 
-nav ul{
-  display:flex;
-  list-style:none;
+nav ul li {
+    margin-left: 30px;
 }
 
-nav ul li{
-  margin-left:25px;
+nav ul li a {
+    text-decoration: none;
+    color: #94a3b8;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 0;
 }
 
-nav ul li a{
-  text-decoration:none;
-  color:white;
+nav ul li a:hover {
+    color: #f97316;
 }
 
-nav ul li a:hover{
-  color:#00f7ff;
+.btn-nav {
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #030712 !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
 }
 
-
-
-/* Card */
-.register-card{
-  background:rgba(0,29,61,0.9);
-  padding:40px;
-  border-radius:20px;
-  width:380px;
-  
-  text-align:center;
-  box-shadow:0 0 25px #00f7ff40;
+/* 🏢 Center Frame */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 100px 20px 40px 20px;
 }
 
-.register-card h2{
-  color:#00f7ff;
-  margin-bottom:20px;
+/* 🛸 Space-Capsule Registration Card */
+.register-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 3px solid #f97316;
+    padding: 45px 40px;
+    border-radius: 24px;
+    text-align: center;
+    width: 100%;
+    max-width: 440px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-input{
-  width:100%;
-  padding:12px;
-  margin-bottom:15px;
-  border-radius:10px;
-  border:none;
-  outline:none;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:30px;
-  background:#00f7ff;
-  font-weight:bold;
-  cursor:pointer;
+.register-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(to right, #ffffff, #ffe3a0, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 25px;
 }
 
-/* Messages */
-.error{
-  color:red;
-  margin-bottom:10px;
+/* ⚡ Inputs & Form elements */
+.form-group {
+    position: relative;
+    margin-bottom: 18px;
+    text-align: left;
 }
 
-.success{
-  color:lightgreen;
-  margin-bottom:10px;
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* Link */
-.login-link{
-  margin-top:15px;
-  display:block;
-  color:#00f7ff;
-  text-decoration:none;
+.register-card input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(3, 7, 18, 0.6);
+    color: #f8fafc;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.register-card input:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.25);
+    background: rgba(3, 7, 18, 0.8);
+}
+
+/* 🔘 Golden Action Button */
+.btn-action {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #030712;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(249, 115, 22, 0.5);
+}
+
+/* 🔗 Links */
+.login-link {
+    color: #f59e0b;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.login-link:hover {
+    color: #f97316;
+    text-decoration: underline;
+}
+
+/* 🔴 Warnings / Messages */
+.alert-box {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-box.success-box {
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #bbf7d0;
+}
+
+.alert-icon {
+    font-size: 18px;
 }
 </style>
-
 </head>
 
 <body>
 
+<!-- 🪐 GLASS NAVBAR -->
 <nav>
   <h2>🌞 Solar Impact</h2>
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/login">Login</a></li>
+    <li><a href="/login" class="btn-nav">Login</a></li>
   </ul>
 </nav>
 
 <div class="container">
-  <div class="register-card">
-    <h2>Register Account</h2>
-  
-    <!-- 🔴 Error -->
-    {% if error %}
-      <p class="error">{{ error }}</p>
-    {% endif %}
-  
-    <!-- 🟢 Success -->
-    {% if success %}
-      <p class="success">{{ success }}</p>
-    {% endif %}
-  
-    <!-- ✅ FORM -->
-    <form method="POST" action="/register">
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-      <button class="btn">Register</button>
-    </form>
-  
-    <a href="/" class="login-link">Already have an account? Login</a>
-  </div>
+    <div class="register-card">
+        <h2>Clearance Registration</h2>
 
+        <!-- Flash alerts -->
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert-box">
+                        <span class="alert-icon">⚠️</span>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert-box success-box">
+                        <span class="alert-icon">✓</span>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if error %}
+            <div class="alert-box">
+                <span class="alert-icon">⚠️</span>
+                <span>{{ error }}</span>
+            </div>
+        {% endif %}
+      
+        {% if success %}
+            <div class="alert-box success-box">
+                <span class="alert-icon">✓</span>
+                <span>{{ success }}</span>
+            </div>
+        {% endif %}
+
+        <!-- FORM -->
+        <form method="POST" action="/register">
+            <div class="form-group">
+                <label>Access Identity (Name)</label>
+                <input type="text" name="name" placeholder="Agent Name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Secure Email</label>
+                <input type="email" name="email" placeholder="agent@agency.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Password Clearance</label>
+                <input type="password" name="password" placeholder="••••••••••••" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Verify Security Clearance</label>
+                <input type="password" name="confirm_password" placeholder="••••••••••••" required>
+            </div>
+            
+            <button class="btn-action">Submit Request</button>
+        </form>
+
+        <a href="/login" class="login-link">Already cleared? Authorization Sign In</a>
+    </div>
 </div>
-
-
 
 </body>
 </html>

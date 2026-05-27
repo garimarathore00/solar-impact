@@ -3,277 +3,455 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solar Activity Impact Dashboard</title>
+<title>Solar Impact & Space Weather Dashboard</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
 }
 
-body{
-background:#000814;
-color:white;
-overflow-x:hidden;
+body {
+    background: radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+                #030712;
+    color: #f8fafc;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
 }
 
-/* ⭐ Animated Stars Background */
-
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:url("https://www.transparenttextures.com/patterns/stardust.png");
-animation:stars 200s linear infinite;
-opacity:0.7;
-z-index:-2;
+/* ⭐ Celestial Starfield */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("https://www.transparenttextures.com/patterns/stardust.png");
+    animation: stars 240s linear infinite;
+    opacity: 0.4;
+    z-index: -2;
 }
 
-@keyframes stars{
-from{background-position:0 0;}
-to{background-position:10000px 5000px;}
+@keyframes stars {
+    from { background-position: 0 0; }
+    to { background-position: 10000px 5000px; }
 }
 
-/* Navbar */
-
-nav{
-  display:flex;
-  justify-content:space-between;
-  padding:20px 8%;
-  position:fixed;
-  width:100%;
-  background:rgba(0,0,0,0.6);
+/* 🪐 Floating Glass Navbar */
+nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    padding: 15px 40px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
 }
 
-nav h2{
-  color:#00f7ff;
+nav h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    background: linear-gradient(to right, #ffe3a0, #f59e0b, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-nav ul{
-  display:flex;
-  list-style:none;
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
 }
 
-nav ul li{
-  margin-left:25px;
+nav ul li {
+    margin-left: 30px;
 }
 
-nav ul li a{
-  text-decoration:none;
-  color:white;
+nav ul li a {
+    text-decoration: none;
+    color: #94a3b8;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 0;
 }
 
-nav ul li a:hover{
-  color:#00f7ff;
+nav ul li a:hover, nav ul li a.active {
+    color: #f97316;
 }
 
-/* Hero */
-
-.hero{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 8%;
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #f97316;
+    transition: width 0.3s ease;
 }
 
-.hero-text{
-max-width:600px;
+nav ul li a:hover::after {
+    width: 100%;
 }
 
-.hero-text h1{
-font-size:48px;
-margin-bottom:20px;
+.btn-nav {
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #030712 !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
 }
 
-.hero-text span{
-color:#00f7ff;
+.btn-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
 }
 
-.hero-text p{
-margin-bottom:30px;
-line-height:1.6;
+.btn-nav::after {
+    display: none !important;
 }
 
-.btn{
-padding:12px 30px;
-background:#00f7ff;
-color:black;
-border-radius:30px;
-text-decoration:none;
+/* ⚡ Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 100px 8% 0 8%;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 40px;
 }
 
-/* 🌞 SUN IMAGE */
-
-.hero-img img{
-width:350px;
-animation: rotateSun 20s linear infinite, floatSun 4s ease-in-out infinite;
+.hero-text {
+    max-width: 600px;
 }
 
-/* Sun Rotate */
-
-@keyframes rotateSun{
-
-0%{
-transform:rotate(0deg);
+.hero-text h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 54px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
 }
 
-100%{
-transform:rotate(360deg);
+.hero-text span {
+    background: linear-gradient(135deg, #ffe3a0, #f59e0b, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
 }
 
+.hero-text p {
+    font-size: 17px;
+    color: #94a3b8;
+    line-height: 1.7;
+    margin-bottom: 40px;
 }
 
-
-/* Stats */
-
-.stats{
-padding:80px 8%;
-text-align:center;
+.btn-explore {
+    display: inline-block;
+    padding: 14px 35px;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #030712;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 10px 25px rgba(249, 115, 22, 0.35);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.stats h2{
-margin-bottom:40px;
-font-size:34px;
+.btn-explore:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(249, 115, 22, 0.5);
 }
 
-.stat-box{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
-justify-content:center;
+/* 🌞 Glowing Solar Corona */
+.hero-img-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 500px;
 }
 
-.stat{
-background:#001d3d;
-padding:30px;
-border-radius:12px;
-width:220px;
-transition:0.4s;
+.corona-container {
+    position: relative;
+    width: 380px;
+    height: 380px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.stat:hover{
-transform:translateY(-10px);
-background:#00f7ff;
-color:black;
+.sun-core {
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, #ffe9be 0%, #f59e0b 60%, #f97316 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(249, 115, 22, 0.8),
+                0 0 100px rgba(245, 158, 11, 0.6),
+                0 0 180px rgba(239, 68, 68, 0.4);
+    animation: pulseSun 5s ease-in-out infinite;
+    z-index: 2;
 }
 
-.stat h3{
-font-size:28px;
-margin-bottom:10px;
+.solar-flare {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+    background: rgba(249, 115, 22, 0.15);
+    filter: blur(12px);
+    animation: rotateFlare 15s linear infinite;
+    z-index: 1;
 }
 
-/* About */
-
-.about{
-padding:80px 8%;
-text-align:center;
+.solar-flare.two {
+    width: 300px;
+    height: 300px;
+    border-radius: 63% 37% 41% 59% / 38% 62% 63% 37%;
+    background: rgba(245, 158, 11, 0.12);
+    animation: rotateFlareReverse 22s linear infinite;
 }
 
-.about h2{
-margin-bottom:20px;
+@keyframes pulseSun {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 50px rgba(249, 115, 22, 0.8), 0 0 100px rgba(245, 158, 11, 0.6), 0 0 150px rgba(239, 68, 68, 0.3);
+    }
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 70px rgba(249, 115, 22, 1.0), 0 0 140px rgba(245, 158, 11, 0.8), 0 0 220px rgba(239, 68, 68, 0.5);
+    }
 }
 
-.about p{
-max-width:800px;
-margin:auto;
-line-height:1.7;
+@keyframes rotateFlare {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-/* Footer */
-
-footer{
-background:#000;
-padding:20px;
-text-align:center;
+@keyframes rotateFlareReverse {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
 }
 
+/* 📊 Telemetry Stats Grid */
+.stats {
+    padding: 100px 8%;
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.stats h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 60px;
+    background: linear-gradient(to right, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.stat {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 2px solid rgba(249, 115, 22, 0.2);
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 250px;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.stat:hover {
+    transform: translateY(-8px);
+    border-color: rgba(249, 115, 22, 0.3);
+    border-top-color: #f97316;
+    box-shadow: 0 15px 35px rgba(249, 115, 22, 0.12);
+}
+
+.stat h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    background: linear-gradient(135deg, #ffffff, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.stat p {
+    font-size: 15px;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+/* 🛸 About Glass Section */
+.about {
+    padding: 100px 8%;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.about-card {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 60px 40px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.about p {
+    font-size: 18px;
+    color: #cbd5e1;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 🌌 Footer */
+footer {
+    background: #020617;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 60px;
+}
 </style>
 </head>
 
 <body>
 
+<!-- 🪐 GLASS NAVBAR -->
 <nav>
   <h2>🌞 Solar Impact</h2>
   <ul>
-    <li><a href="/">Home</a></li>
+    <li><a href="/" class="active">Home</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/login">Login</a></li>
+    <li><a href="/login" class="btn-nav">Login</a></li>
   </ul>
 </nav>
 
-
+<!-- ⚡ HERO SECTION -->
 <section class="hero">
+    <div class="hero-text">
+        <h1>Space <span>Weather</span><br>Impact Analysis</h1>
+        <p>
+            Explore real-time visual telemetries of Coronal Mass Ejections (CMEs), solar flares, and high-energy electromagnetic anomalies, evaluating their direct geopolitical and technological impacts on Earth's grid infrastructure.
+        </p>
+        <a href="/dashboard" class="btn-explore">Explore Telemetry Dashboard</a>
+    </div>
 
-<div class="hero-text">
-<h1>Space <span>Weather</span> Impact Analysis</h1>
-
-<p>
-Analyze NASA space weather data including CME events, solar activity
-and their effects on Earth.
-</p>
-
-<a href="/dashboard" class="btn">Explore Dashboard</a>
-</div>
-
-<div class="hero-img" style="width: 700px;">
-
-<img src="https://static.vecteezy.com/system/resources/thumbnails/045/979/597/small_2x/bright-sun-cut-outs-ready-to-use-images-free-png.png" width="700px" alt="Sun Image">
-</div>
-
+    <div class="hero-img-container">
+        <!-- Pulse Solar Corona -->
+        <div class="corona-container">
+            <div class="solar-flare"></div>
+            <div class="solar-flare two"></div>
+            <div class="sun-core"></div>
+        </div>
+    </div>
 </section>
 
+<!-- 📊 DIAGNOSTIC STATISTICS -->
 <section class="stats">
-
-<h2>Impact Statistics</h2>
-
-<div class="stat-box">
-
-<div class="stat">
-<h3>1.2M+</h3>
-<p>Data Points Analyzed</p>
-</div>
-
-<div class="stat">
-<h3>98%</h3>
-<p>Efficiency Accuracy</p>
-</div>
-
-<div class="stat">
-<h3>500+</h3>
-<p>Solar Installations Tracked</p>
-</div>
-
-<div class="stat">
-<h3>30%</h3>
-<p>Carbon Reduction</p>
-</div>
-
-</div>
-
+    <h2>Space Telemetry Insights</h2>
+    <div class="stat-box">
+        <div class="stat">
+            <h3>12K+</h3>
+            <p>Ejection Events Logged</p>
+        </div>
+        <div class="stat">
+            <h3>98.7%</h3>
+            <p>Geomagnetic Accuracy</p>
+        </div>
+        <div class="stat">
+            <h3>500+</h3>
+            <p>Satellites Tracked</p>
+        </div>
+        <div class="stat">
+            <h3>24/7</h3>
+            <p>Solar Storm Coverage</p>
+        </div>
+    </div>
 </section>
 
+<!-- 🛸 PROJECT SUMMARY -->
 <section class="about">
-
-<h2>About The Project</h2>
-
-<p>
-Solar Impact Analysis provides insights into solar activity,
-space weather and environmental sustainability using
-NASA datasets and visual analytics.
-</p>
-
+    <div class="about-card">
+        <h2>About The System</h2>
+        <p>
+            Solar Impact Analysis uses advanced celestial telemetry datasets to catalog solar storm magnitudes, track CME speeds, and forecast electromagnetic disturbances that pose direct hazards to GPS grids, aviation routers, and regional electrical networks.
+        </p>
+    </div>
 </section>
 
+<!-- 🌌 FOOTER -->
 <footer>
-© 2026 Solar Impact Analysis
+  © 2026 Solar Impact Analysis System • Developed by Advanced Celestial Lab
 </footer>
 
 </body>
