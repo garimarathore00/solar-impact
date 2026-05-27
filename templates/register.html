@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Registration</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:#000814;
+  color:white;
+  /* padding:120px auto; */
+  
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Background */
+body::before{
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url("https://www.transparenttextures.com/patterns/stardust.png");
+  animation:stars 200s linear infinite;
+  opacity:0.7;
+  z-index:-2;
+}
+
+@keyframes stars{
+  from{background-position:0 0;}
+  to{background-position:10000px 5000px;}
+}
+
+/* Navbar */
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 8%;
+  position:fixed;
+  width:100%;
+  background:rgba(0,0,0,0.6);
+}
+
+nav h2{
+  color:#00f7ff;
+}
+
+nav ul{
+  display:flex;
+  list-style:none;
+}
+
+nav ul li{
+  margin-left:25px;
+}
+
+nav ul li a{
+  text-decoration:none;
+  color:white;
+}
+
+nav ul li a:hover{
+  color:#00f7ff;
+}
+
+
+
+/* Card */
+.register-card{
+  background:rgba(0,29,61,0.9);
+  padding:40px;
+  border-radius:20px;
+  width:380px;
+  
+  text-align:center;
+  box-shadow:0 0 25px #00f7ff40;
+}
+
+.register-card h2{
+  color:#00f7ff;
+  margin-bottom:20px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+}
+
+.btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:30px;
+  background:#00f7ff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* Messages */
+.error{
+  color:red;
+  margin-bottom:10px;
+}
+
+.success{
+  color:lightgreen;
+  margin-bottom:10px;
+}
+
+/* Link */
+.login-link{
+  margin-top:15px;
+  display:block;
+  color:#00f7ff;
+  text-decoration:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<nav>
+  <h2>🌞 Solar Impact</h2>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/login">Login</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="register-card">
+    <h2>Register Account</h2>
+  
+    <!-- 🔴 Error -->
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+  
+    <!-- 🟢 Success -->
+    {% if success %}
+      <p class="success">{{ success }}</p>
+    {% endif %}
+  
+    <!-- ✅ FORM -->
+    <form method="POST" action="/register">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      <button class="btn">Register</button>
+    </form>
+  
+    <a href="/" class="login-link">Already have an account? Login</a>
+  </div>
+
+</div>
+
+
+
+</body>
+</html>

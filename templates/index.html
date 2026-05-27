@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Activity Impact Dashboard</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#000814;
+color:white;
+overflow-x:hidden;
+}
+
+/* ⭐ Animated Stars Background */
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:url("https://www.transparenttextures.com/patterns/stardust.png");
+animation:stars 200s linear infinite;
+opacity:0.7;
+z-index:-2;
+}
+
+@keyframes stars{
+from{background-position:0 0;}
+to{background-position:10000px 5000px;}
+}
+
+/* Navbar */
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 8%;
+  position:fixed;
+  width:100%;
+  background:rgba(0,0,0,0.6);
+}
+
+nav h2{
+  color:#00f7ff;
+}
+
+nav ul{
+  display:flex;
+  list-style:none;
+}
+
+nav ul li{
+  margin-left:25px;
+}
+
+nav ul li a{
+  text-decoration:none;
+  color:white;
+}
+
+nav ul li a:hover{
+  color:#00f7ff;
+}
+
+/* Hero */
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 8%;
+}
+
+.hero-text{
+max-width:600px;
+}
+
+.hero-text h1{
+font-size:48px;
+margin-bottom:20px;
+}
+
+.hero-text span{
+color:#00f7ff;
+}
+
+.hero-text p{
+margin-bottom:30px;
+line-height:1.6;
+}
+
+.btn{
+padding:12px 30px;
+background:#00f7ff;
+color:black;
+border-radius:30px;
+text-decoration:none;
+}
+
+/* 🌞 SUN IMAGE */
+
+.hero-img img{
+width:350px;
+animation: rotateSun 20s linear infinite, floatSun 4s ease-in-out infinite;
+}
+
+/* Sun Rotate */
+
+@keyframes rotateSun{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+
+/* Stats */
+
+.stats{
+padding:80px 8%;
+text-align:center;
+}
+
+.stats h2{
+margin-bottom:40px;
+font-size:34px;
+}
+
+.stat-box{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+justify-content:center;
+}
+
+.stat{
+background:#001d3d;
+padding:30px;
+border-radius:12px;
+width:220px;
+transition:0.4s;
+}
+
+.stat:hover{
+transform:translateY(-10px);
+background:#00f7ff;
+color:black;
+}
+
+.stat h3{
+font-size:28px;
+margin-bottom:10px;
+}
+
+/* About */
+
+.about{
+padding:80px 8%;
+text-align:center;
+}
+
+.about h2{
+margin-bottom:20px;
+}
+
+.about p{
+max-width:800px;
+margin:auto;
+line-height:1.7;
+}
+
+/* Footer */
+
+footer{
+background:#000;
+padding:20px;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+  <h2>🌞 Solar Impact</h2>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/login">Login</a></li>
+  </ul>
+</nav>
+
+
+<section class="hero">
+
+<div class="hero-text">
+<h1>Space <span>Weather</span> Impact Analysis</h1>
+
+<p>
+Analyze NASA space weather data including CME events, solar activity
+and their effects on Earth.
+</p>
+
+<a href="/dashboard" class="btn">Explore Dashboard</a>
+</div>
+
+<div class="hero-img" style="width: 700px;">
+
+<img src="https://static.vecteezy.com/system/resources/thumbnails/045/979/597/small_2x/bright-sun-cut-outs-ready-to-use-images-free-png.png" width="700px" alt="Sun Image">
+</div>
+
+</section>
+
+<section class="stats">
+
+<h2>Impact Statistics</h2>
+
+<div class="stat-box">
+
+<div class="stat">
+<h3>1.2M+</h3>
+<p>Data Points Analyzed</p>
+</div>
+
+<div class="stat">
+<h3>98%</h3>
+<p>Efficiency Accuracy</p>
+</div>
+
+<div class="stat">
+<h3>500+</h3>
+<p>Solar Installations Tracked</p>
+</div>
+
+<div class="stat">
+<h3>30%</h3>
+<p>Carbon Reduction</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="about">
+
+<h2>About The Project</h2>
+
+<p>
+Solar Impact Analysis provides insights into solar activity,
+space weather and environmental sustainability using
+NASA datasets and visual analytics.
+</p>
+
+</section>
+
+<footer>
+© 2026 Solar Impact Analysis
+</footer>
+
+</body>
+</html>

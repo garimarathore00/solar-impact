@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Login</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:#000814;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* ⭐ Background */
+body::before{
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url("https://www.transparenttextures.com/patterns/stardust.png");
+  animation:stars 200s linear infinite;
+  opacity:0.7;
+  z-index:-2;
+}
+
+@keyframes stars{
+  from{background-position:0 0;}
+  to{background-position:10000px 5000px;}
+}
+
+/* Navbar */
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 8%;
+  position:fixed;
+  width:100%;
+  background:rgba(0,0,0,0.6);
+}
+
+nav h2{
+  color:#00f7ff;
+}
+
+nav ul{
+  display:flex;
+  list-style:none;
+}
+
+nav ul li{
+  margin-left:25px;
+}
+
+nav ul li a{
+  text-decoration:none;
+  color:white;
+}
+
+nav ul li a:hover{
+  color:#00f7ff;
+}
+
+/* Login Card */
+.login-card{
+  background:rgba(0,29,61,0.85);
+  padding:50px 40px;
+  border-radius:20px;
+  text-align:center;
+  width:400px;
+  box-shadow:0 0 30px #00f7ff50;
+  margin-top:120px;
+}
+
+.login-card h2{
+  margin-bottom:20px;
+  color:#00f7ff;
+}
+
+/* Inputs */
+.login-card input{
+  width:100%;
+  padding:12px;
+  margin-bottom:20px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+}
+
+/* Button */
+.btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:30px;
+  background:#00f7ff;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* Error */
+.error{
+  color:red;
+  margin-bottom:10px;
+}
+
+/* Center */
+.main-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+</style>
+
+</head>
+
+<body>
+
+<nav>
+  <h2>🌞 Solar Impact</h2>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/login">Login</a></li>
+  </ul>
+</nav>
+
+<div class="main-container">
+
+  <div class="login-card">
+    <h2>Login</h2>
+
+    <!-- ❗ Error Message -->
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <!-- ✅ FORM ADDED -->
+    <form method="POST" action="/login">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button class="btn">Login</button>
+      <a href="/register" class="register-link">Don't have an account? Register</a>
+    </form>
+
+  </div>
+
+</div>
+
+</body>
+</html>

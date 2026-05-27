@@ -1,0 +1,240 @@
+div class="graphs">
+
+    <div class="graph-box">
+  <h3>🌀 Event Correlation</h3>
+  <img src="{{ url_for('static', filename='plots/eventcorrelation.png') }}">
+</div>
+
+    <div class="graph-box">
+  <h3>🧊 3D Solar Graph</h3>
+  <p>This dashboard shows solar data in a 3D graph using hour, intensity, and values. It helps you easily understand patterns, trends, and changes in solar activity over time.</p>
+  <img src="{{ url_for('static', filename='plots/3d.png') }}">
+</div>
+    <div class="graph-box">
+  <h3>🔥 Event Correlation</h3>
+  <p>This dashboard map shows solar events across the world using latitude and longitude. The color and size of points represent intensity, helping you quickly see where solar activity is stronger.</p>
+  <img src="{{ url_for('static', filename='plots/heatmap.png') }}">
+</div>
+<div class="graph-box">
+  <h3>Intensity Distribution</h3>
+  <img src="{{ url_for('static', filename='plots/distribution.png') }}">
+</div>
+    <div class="graph-box">
+  <h3>📊 Event Types</h3>
+  <img src="{{ url_for('static', filename='plots/pie.png') }}">
+</div>
+<div class="graph-box">
+  <h3>🌍Event Distribution</h3>
+  <p>This chart shows the distribution of different solar event types in a donut shape. 🟠 Each section represents a category, and the percentage shows how often each event occurs, making it easy to compare their frequency.</p>
+  <img src="{{ url_for('static', filename='plots/donut.png') }}">
+</div>
+<div class="graph-box">
+  <h3>🌍 Hours Activity</h3>
+  <p>This chart shows the distribution of different solar event types in a donut shape. 🟠 Each section represents a category, and the percentage shows how often each event occurs, making it easy to compare their frequency.</p>
+  <img src="{{ url_for('static', filename='plots/polar.png') }}">
+
+</div>
+<div class="graph-box">
+  <h3>Solar Flares per Hours</h3>
+  <p>This chart shows the distribution of different solar event types in a donut shape. 🟠 Each section represents a category, and the percentage shows how often each event occurs, making it easy to compare their frequency.</p>
+  <img src="{{ url_for('static', filename='plots/flares.png') }}">
+</div>
+<div class="graph-box">
+  <h3>solar Activity growth</h3>
+  <p>This chart shows the distribution of different solar event types in a donut shape. 🟠 Each section represents a category, and the percentage shows how often each event occurs, making it easy to compare their frequency.</p>
+  <img src="{{ url_for('static', filename='plots/solarActivitygrowth.png') }}">
+</div>
+
+   
+  </div>
+
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Dashboard</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+  background:#000814;
+  color:white;
+  font-family:sans-serif;
+}
+
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:#001d3d;
+}
+
+/* LOADER */
+.loader{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.loader div{
+  width:50px;
+  height:50px;
+  border:5px solid #00f7ff;
+  border-top:5px solid transparent;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  100%{transform:rotate(360deg);}
+}
+
+/* FILTER */
+.filter{
+  padding:20px;
+  text-align:center;
+}
+
+select, input{
+  padding:8px;
+  margin:5px;
+}
+
+/* GRID */
+.graphs{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+.graph-box{
+  background:#001d3d;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+}
+
+.graph-box img{
+  width:100%;
+  cursor:pointer;
+}
+
+/* ZOOM MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal img{
+  max-width:90%;
+  max-height:90%;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <h2>🌞 Dashboard</h2>
+  <a href="/logout">Logout</a>
+</nav>
+
+<!-- FILTER -->
+<div class="filter">
+  <input type="date" id="dateFilter">
+  <select id="typeFilter">
+    <option value="all">All Events</option>
+    <option value="flare">Flare</option>
+    <option value="storm">Storm</option>
+  </select>
+</div>
+
+<!-- LIVE GRAPH -->
+<div style="width:80%; margin:auto;">
+  <canvas id="liveChart"></canvas>
+</div>
+
+<!-- GRAPHS -->
+<div class="graphs">
+
+  <div class="graph-box">
+    <h3>Event Correlation</h3>
+    <img src="{{ url_for('static', filename='plots/eventcorrelation.png') }}" onclick="zoom(this)">
+  </div>
+
+  <div class="graph-box">
+    <h3>3D Graph</h3>
+    <img src="{{ url_for('static', filename='plots/3d.png') }}" onclick="zoom(this)">
+  </div>
+
+  <div class="graph-box">
+    <h3>Heatmap</h3>
+    <img src="{{ url_for('static', filename='plots/heatmap.png') }}" onclick="zoom(this)">
+  </div>
+
+</div>
+
+<!-- ZOOM MODAL -->
+<div class="modal" id="modal" onclick="closeZoom()">
+  <img id="zoomImg">
+</div>
+
+<script>
+// LOADER
+window.onload = function(){
+  document.getElementById("loader").style.display="none";
+}
+
+// ZOOM
+function zoom(img){
+  document.getElementById("modal").style.display="flex";
+  document.getElementById("zoomImg").src = img.src;
+}
+
+function closeZoom(){
+  document.getElementById("modal").style.display="none";
+}
+
+// LIVE CHART
+new Chart(document.getElementById('liveChart'), {
+  type:'line',
+  data:{
+    labels:['1','2','3','4','5'],
+    datasets:[{
+      label:'Solar Data',
+      data:[10,20,15,25,30],
+      borderWidth:2
+    }]
+  }
+});
+
+// FILTER (basic demo)
+document.getElementById("typeFilter").addEventListener("change", function(){
+  alert("Filter applied: " + this.value);
+});
+</script>
+
+</body>
+</html>

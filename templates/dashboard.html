@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Solar Dashboard</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+
+body{
+  background:linear-gradient(135deg,#000814,#001d3d);
+  color:white;
+}
+
+/* 🔥 NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 8%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
+}
+
+.navbar h2{color:#00f7ff;}
+
+.nav-links a{
+  margin-left:20px;
+  text-decoration:none;
+  color:white;
+}
+
+.nav-links a:hover{color:#00f7ff;}
+
+.logout{
+  background:#00f7ff;
+  color:black;
+  padding:6px 12px;
+  border-radius:15px;
+}
+
+/* CONTAINER */
+.container{padding:30px;}
+
+/* KPI */
+.kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+  margin-bottom:30px;
+}
+
+.kpi-box{
+  background:#001d3d;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 0 15px #00f7ff40;
+}
+
+/* CARDS */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#001d3d;
+  padding:15px;
+  border-radius:10px;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px #00f7ff;
+}
+
+.card img{
+  width:100%;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  top:0;
+  left:0;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+.modal img{max-width:80%;}
+
+#desc{
+  margin-top:20px;
+  background:#111;
+  padding:15px;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔥 NAVBAR -->
+<nav class="navbar">
+  <h2>🌞 Solar Dashboard</h2>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/about">About</a>
+    <a href="/logout" class="logout">Logout</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<h2>Welcome {{ session['user_name'] }} 👋</h2>
+
+<!-- 🔥 KPI -->
+<div class="kpi">
+  <div class="kpi-box">
+    <h3>Total Events</h3>
+    <p>{{ total_events }}</p>
+  </div>
+
+  <div class="kpi-box">
+    <h3>Avg Intensity</h3>
+    <p>{{ avg_intensity }}</p>
+  </div>
+
+  <div class="kpi-box">
+    <h3>Max Intensity</h3>
+    <p>{{ max_intensity }}</p>
+  </div>
+
+  <div class="kpi-box">
+    <h3>Min Intensity</h3>
+    <p>{{ min_intensity }}</p>
+  </div>
+
+  <div class="kpi-box">
+    <h3>Event Types</h3>
+    <p>{{ event_types }}</p>
+  </div>
+</div>
+
+<!-- 🔥 CARDS WITH GRAPHS -->
+<div class="cards">
+
+<div class="card">
+  <h3>3D Solar Graph</h3>
+  <img src="{{ url_for('static', filename='plots/3d.png') }}" onclick="zoom(this,'3D solar activity visualization')">
+</div>
+
+<div class="card">
+  <h3>Heatmap</h3>
+  <img src="{{ url_for('static', filename='plots/heatmap.png') }}" onclick="zoom(this,'Heatmap shows intensity across locations')">
+</div>
+
+<div class="card">
+  <h3>Event Distribution</h3>
+  <img src="{{ url_for('static', filename='plots/pie.png') }}" onclick="zoom(this,'Distribution of event types')">
+</div>
+
+<div class="card">
+  <h3>Donut Chart</h3>
+  <img src="{{ url_for('static', filename='plots/donut.png') }}" onclick="zoom(this,'Comparison of solar events')">
+</div>
+
+<div class="card">
+  <h3>Solar Flares</h3>
+  <img src="{{ url_for('static', filename='plots/flares.png') }}" onclick="zoom(this,'Solar flares per hour')">
+</div>
+
+</div>
+
+</div>
+
+<!-- 🔥 MODAL -->
+<div class="modal" id="modal">
+  <img id="img">
+  <p id="desc"></p>
+</div>
+
+<script>
+function zoom(img,text){
+  document.getElementById("modal").style.display="flex";
+  document.getElementById("img").src = img.src;
+  document.getElementById("desc").innerText = text;
+}
+
+document.getElementById("modal").onclick = function(){
+  this.style.display="none";
+}
+</script>
+
+</body>
+</html>
